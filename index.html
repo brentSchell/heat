@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- <meta charset="UTF-8"> -->
+    <meta charset="UTF-8">
 	<title>Game</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="static/processing.min.js"></script>
 	<style>
 		body {
@@ -15,14 +17,115 @@
 	</style>
 </head>
 <body>	
-	<div align="center">
-		
+
+<div class="container-fluid">
+	<div class="row" >
+		<div class="col-sm-3 mobile-controls">
+			<div class="jumbotron" align="center" onmousedown="clickJump();" onmouseup="releaseJump();">
+				<h3>JUMP</h3>
+			</div>
+			<div class="jumbotron" align="center" onmousedown="clickLeft();" onmouseup="releaseLeft();">
+				<h3>LEFT</h3>
+			</div>
+			<div class="jumbotron" align="center" onmousedown="clickDown();" onmouseup="releaseDown();">
+				<h3>DOWN</h3>
+			</div>
+		</div>
+		<div class="col-sm-6 col-lg-12" align="center">
+			<canvas id="heat" data-processing-sources="heat_game.pde"></canvas>
+		</div>
+		<div class="col-sm-3 mobile-controls">
+			<div class="jumbotron" align="center" onmousedown="clickJump();" onmouseup="releaseJump();">
+				<h3>JUMP</h3>
+			</div>
+			<div class="jumbotron" align="center" onmousedown="clickRight();" onmouseup="releaseRight();">
+				<h3>RIGHT</h3>
+			</div>
+			<div class="jumbotron" align="center" onmousedown="clickDown();" onmouseup="releaseDown();">
+				<h3>DOWN</h3>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row" align="center">
 		<h1>WICK</h1>
 		<p>A game to warm up to.
 		<br>Made by Brent Schellenberg.
 		<br>
 		<br>Use the arrow keys to move, space to jump. Hold z to restart.</p>
-		<canvas data-processing-sources="heat_game.pde"></canvas>
 	</div>
+</div>
+	
+	<script>
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+			/*var w = window,
+				d = document,
+				e = d.documentElement,
+				g = d.getElementsByTagName('body')[0],
+				x = w.innerWidth || e.clientWidth || g.clientWidth,
+				y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+			alert(x + ' × ' + y);
+			if (x < y) {
+				alert("Flip your phone");
+			}
+			$("canvas").attr("data-processing-sources","heat_game_mobile.pde"); */
+			console.log("mobile");
+			$(".mobile-controls").show();
+		} else {
+			$(".mobile-controls").hide();
+		}
+	</script>
+	<script type="application/javascript">
+		var processingInstance;
+
+		function clickLeft() {
+			procFunctions('LEFT_ON');
+		}
+		function releaseLeft() {
+			procFunctions('LEFT_OFF');
+		}
+		function clickRight() {
+			procFunctions('RIGHT_ON');
+		}
+		function releaseRight() {
+			procFunctions('RIGHT_OFF');
+		}
+		function clickJump() {
+			procFunctions('JUMP_ON');
+		}
+		function releaseJump() {
+			procFunctions('JUMP_OFF');
+		}
+		function clickDown() {
+			procFunctions('DOWN_ON');
+		}
+		function releaseDown() {
+			procFunctions('DOWN_OFF');
+		}
+
+		function procFunctions(func) {
+			if (!processingInstance) {
+				processingInstance = Processing.getInstanceById('heat');
+			}
+			if (func == 'LEFT_ON') {
+				processingInstance.clickLeft();
+			} else if (func == 'LEFT_OFF') {
+				processingInstance.releaseLeft();
+			} else if (func == 'RIGHT_ON') {
+				processingInstance.clickRight();
+			} else if (func == 'RIGHT_OFF') {
+				processingInstance.releaseRight();
+			} else if (func == 'JUMP_ON') {
+				processingInstance.clickJump();
+			} else if (func == 'JUMP_OFF') {
+				processingInstance.releaseJump();
+			} else if (func == 'DOWN_ON') {
+				processingInstance.clickDown();
+			} else if (func == 'DOWN_OFF') {
+				processingInstance.releaseDown();
+			}
+		}
+	</script>
+		
 </body>
 </html>

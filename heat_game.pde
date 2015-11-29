@@ -91,7 +91,7 @@ void setup() {
   levelWon = false;
   levelReset = false;
   
-  current_level = 0;
+  current_level = 13;
   loadLevel(current_level);
   
   // Init Player
@@ -105,6 +105,32 @@ void draw() {
   tick();
   render();
   
+}
+
+/* Mobile input functions */
+void clickLeft() {	
+	pressed(LEFT);
+}
+void clickRight() {	
+	pressed(RIGHT);
+}
+void clickJump() {	
+	pressed(' ');
+}
+void clickDown() {	
+	pressed(DOWN);
+}
+void releaseLeft() {	
+	released(LEFT);
+}
+void releaseRight() {	
+	released(RIGHT);
+}
+void releaseJump() {	
+	released(' ');
+}
+void releaseDown() {	
+	released(DOWN);
 }
 
 void keyPressed() {
@@ -831,13 +857,13 @@ class HeatSource {
     if (dx < 0) dir = -1;
     
     int ty = (int)this.y;
-    int tyl = (int)(this.y-this.ry/2.0);
-    int tyr = (int)(this.y+this.ry/2.0);
+    int tyl = (int)(this.y-this.ry/2.2);
+    int tyr = (int)(this.y+this.ry/2.2);
     float cx = d*dir;
 
     while (abs(cx) < abs(dx)) {
      int tx = (int)(this.x+cx+dir*this.rx/2.0);
-     if (grid[ty*GRID_WIDTH+tx].solid) {// || grid[tyl*GRID_WIDTH+tx].solid) {
+     if ( grid[ty*GRID_WIDTH+tx].solid || grid[tyl*GRID_WIDTH+tx].solid ) {
         cx -= d*dir;
         break;
      }
@@ -855,14 +881,14 @@ class HeatSource {
     if (dy < 0) dir = -1;
     
     int tx = (int)(this.x);
-    int txr = (int)(this.x + this.rx/2);
-    int txl = (int)(this.x - this.rx/2);
+    int txr = (int)(this.x + this.rx/2.2);
+    int txl = (int)(this.x - this.rx/2.2);
     float cy = d*dir;
     //println(dir);
     while (abs(cy) < abs(dy)) {
      int ty = (int)(this.y+cy+dir*this.ry/2.0);
-    // if (grid[ty*GRID_WIDTH+txr].solid || grid[ty*GRID_WIDTH+txl].solid) {
-     if (grid[ty*GRID_WIDTH+tx].solid) {   
+     if (grid[ty*GRID_WIDTH+txr].solid || grid[ty*GRID_WIDTH+txl].solid) {
+    // if (grid[ty*GRID_WIDTH+tx].solid) {   
         cy -= d*dir;
         
         // hit floor or ceiling 
